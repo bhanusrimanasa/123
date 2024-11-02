@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademiHub - Share Academic Excellence</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --secondary: #818cf8;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --sidebar-width: 250px;
+        }
+
+        /* Login Form */
+        .login-container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #4f46e5 0%, #818cf8 100%);
+        }
+
+        .login-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: none; /* Initially hidden */
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--dark);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            padding: 1rem;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            background: url('images/education-wallpaper.jpg') center/cover;
+            min-height: 100vh;
+        }
+
+        .menu-item {
+            padding: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item:hover {
+            background: var(--primary);
+        }
+
+        /* Education Section */
+        .education-options {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .degree-select {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        /* Query Box */
+        .query-box {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .query-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form -->
+    <div class="login-container" id="loginContainer">
+        <form class="login-form" id="loginForm">
+            <h2>Welcome to AcademiHub</h2>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <div class="sidebar">
+            <div class="menu-item" data-section="education">
+                <i class="fas fa-graduation-cap"></i> Education
+            </div>
+            <div class="menu-item" data-section="internships">
+                <i class="fas fa-briefcase"></i> Internships
+            </div>
+            <div class="menu-item" data-section="projects">
+                <i class="fas fa-project-diagram"></i> Projects
+            </div>
+            <div class="menu-item" data-section="papers">
+                <i class="fas fa-file-alt"></i> Previous Year Papers
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Education Section -->
+            <div class="education-options" id="educationSection">
+                <h2>Select Your Program</h2>
+                <select class="degree-select" id="degreeSelect">
+                    <option value="">Select Degree</option>
+                    <option value="btech">B.Tech</option>
+                    <option value="mtech">M.Tech</option>
+                    <option value="phd">PhD</option>
+                    <option value="msc">MSc</option>
+                </select>
+                <div id="yearSelect" style="display: none;">
+                    <!-- Year options will be dynamically added -->
+                </div>
+                <div id="resources" style="display: none;">
+                    <!-- Resources will be dynamically added -->
+                </div>
+            </div>
+
+            <!-- Query Box -->
+            <div class="query-box">
+                <input type="text" class="query-input" placeholder="Ask a question...">
+                <button class="login-btn">Submit Question</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real application, you would validate credentials with the backend
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        });
+
+        // Sidebar navigation
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const section = this.dataset.section;
+                if (section === 'education') {
+                    document.getElementById('educationSection').style.display = 'block';
+                }
+                // Add other section handlers
+            });
+        });
+
+        // Degree selection handler
+        document.getElementById('degreeSelect').addEventListener('change', function() {
+            const yearSelect = document.getElementById('yearSelect');
+            yearSelect.style.display = 'block';
+            yearSelect.innerHTML = ''; // Clear previous options
+
+            // Add year options based on degree
+            const years = this.value === 'phd' ? 5 : 
+                         this.value === 'mtech' ? 2 : 
+                         this.value === 'msc' ? 2 : 4;
+
+            for (let i = 1; i <= years; i++) {
+                const option = document.createElement('div');
+                option.className = 'menu-item';
+                option.textContent = `Year ${i}`;
+                option.addEventListener('click', () => loadResources(this.value, i));
+                yearSelect.appendChild(option);
+            }
+        });
+
+        // Load resources function
+        function loadResources(degree, year) {
+            const resources = document.getElementById('resources');
+            resources.style.display = 'block';
+            
+            // In a real application, this would fetch data from the backend
+            resources.innerHTML = `
+                <h3>Resources for ${degree.toUpperCase()} Year ${year}</h3>
+                <div class="resource-list">
+                    <div class="menu-item">
+                        <i class="fas fa-book"></i> Course Notes
+                    </div>
+                    <div class="menu-item">
+                        <i class="fab fa-youtube"></i> NPTEL Videos
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
